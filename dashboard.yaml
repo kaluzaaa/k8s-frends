@@ -226,13 +226,6 @@ spec:
               # Create on-disk volume to store exec logs
             - mountPath: /tmp
               name: tmp-volume
-          livenessProbe:
-            httpGet:
-              scheme: HTTP
-              path: /
-              port: 8443
-            initialDelaySeconds: 30
-            timeoutSeconds: 30
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
