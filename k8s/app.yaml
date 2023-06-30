@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: my-app
-        image: frendsaksdemo.azurecr.io/demo-svc:v1
+        image: frendsaksdemo.azurecr.io/demo-app
         resources:
           limits:
             memory: "128Mi"
