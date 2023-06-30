@@ -9,7 +9,8 @@ metadata:
     workshop: "true"
 spec:
   rules:
-  - http:
+  - host: kaluzny.fredns.kaluzny.io
+    http:
       paths:
       - pathType: Prefix
         path: "/v1"
@@ -18,7 +19,8 @@ spec:
             name: svc-v1
             port:
               number: 80
-  - http:
+  - host: kaluzny.fredns.kaluzny.io
+    http:
       paths:
       - pathType: Prefix
         path: "/v2"
@@ -27,7 +29,8 @@ spec:
             name: svc-v2
             port:
               number: 80
-  - http:
+  - host: kaluzny.fredns.kaluzny.io
+    http:
       paths:
       - pathType: Prefix
         path: "/v3"

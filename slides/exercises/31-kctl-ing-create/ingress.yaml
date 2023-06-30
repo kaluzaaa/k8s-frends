@@ -9,7 +9,8 @@ metadata:
     workshop: "true"
 spec:
   rules:
-  - http:
+  - host: localhost
+    http:
       paths:
       - pathType: Prefix
         path: "/v1"
