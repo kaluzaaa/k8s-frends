@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app
+        image: frendsaksdemo.azurecr.io/demo-svc:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: my-app-config
+          mountPath: /App/appsettings.json
+          subPath: appsettings.json
+      volumes:
+      - name: my-app-config
+        configMap:
+          name: my-app-config
+---
+# kubectl create cm my-app-config  --from-file=k8s-frends/k8s/appsettings.json -o yaml --dry-run=client >> k8s-frends/k8s/app.yaml
+apiVersion: v1
+data:
+  appsettings.json: "{\r\n  \"Logging\": {\r\n    \"LogLevel\": {\r\n      \"Default\":
+    \"Information\",\r\n      \"Microsoft.AspNetCore\": \"Warning\"\r\n    }\r\n  },\r\n
+    \ \"AllowedHosts\": \"*\",\r\n  \"test\" : \"Production\"\r\n}\r\n"
+kind: ConfigMap
+metadata:
+  name: my-app-config
