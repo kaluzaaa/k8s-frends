@@ -21,3 +21,37 @@ stages:
             command: 'buildAndPush'
             Dockerfile: 'src/Dockerfile'
             buildContext: 'src/.'
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: 'k8s'
+            artifact: 'manifest'
+            publishLocation: 'pipeline'
+
+  - stage: DeployDEV
+    displayName: 'Deploy to DEV'
+    dependsOn: Build
+    variables:
+      namespace: dev
+    jobs:
+      - deployment: DeployDEV
+        displayName: 'Deploy to DEV'
+        pool:
+          vmImage: ubuntu-latest
+        environment: dev
+        strategy:
+         runOnce:
+           deploy:
+             steps:
+               - task: DownloadPipelineArtifact@2
+                 inputs:
+                   buildType: 'current'
+                   artifactName: 'manifest'
+                   targetPath: '$(Pipeline.Workspace)'
+               - task: KubernetesManifest@1
+                 inputs:
+                   action: 'deploy'
+                   connectionType: 'kubernetesServiceConnection'
+                   kubernetesServiceConnection: 'dev-aks-dev-1688125612163'
+                   namespace: '$(namespace)'
+                   manifests: '$(Pipeline.Workspace)/'
+                   containers: 'frendsaksdemo.azurecr.io/demo-app:$(Build.BuildId)'
