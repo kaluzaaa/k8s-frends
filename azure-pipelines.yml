@@ -48,9 +48,14 @@ stages:
                    buildType: 'current'
                    artifactName: 'manifest'
                    targetPath: '$(Pipeline.Workspace)'
+
+               - task: CmdLine@2
+                 inputs:
+                   script: 'kubectl create cm my-app-config  --from-file=$(Pipeline.Workspace)/$(namespace)/appsettings.json -o yaml --dry-run=client > $(Pipeline.Workspace)/cm.yaml'
                - task: CmdLine@2
                  inputs:
                    script: 'ls -la $(Pipeline.Workspace)'
+
                - task: replacetokens@5
                  inputs:
                    targetFiles: '$(Pipeline.Workspace)/*.yaml'
