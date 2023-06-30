@@ -24,10 +24,16 @@ spec:
         - name: my-app-config
           mountPath: /App/appsettings.json
           subPath: appsettings.json
+        - name: secrets
+          mountPath: /App/secrets
+          readOnly: true
       volumes:
       - name: my-app-config
         configMap:
           name: my-app-config
+      - name: secrets
+        secret:
+          secretName: api-secret
 ---
 # kubectl create cm my-app-config  --from-file=k8s-frends/k8s/appsettings.json -o yaml --dry-run=client >> k8s-frends/k8s/app.yaml
 ---
