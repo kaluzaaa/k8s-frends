@@ -30,14 +30,6 @@ spec:
           name: my-app-config
 ---
 # kubectl create cm my-app-config  --from-file=k8s-frends/k8s/appsettings.json -o yaml --dry-run=client >> k8s-frends/k8s/app.yaml
-apiVersion: v1
-data:
-  appsettings.json: "{\r\n  \"Logging\": {\r\n    \"LogLevel\": {\r\n      \"Default\":
-    \"Information\",\r\n      \"Microsoft.AspNetCore\": \"Warning\"\r\n    }\r\n  },\r\n
-    \ \"AllowedHosts\": \"*\",\r\n  \"test\" : \"Production\"\r\n}\r\n"
-kind: ConfigMap
-metadata:
-  name: my-app-config
 ---
 apiVersion: v1
 kind: Service
